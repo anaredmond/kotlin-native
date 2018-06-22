@@ -92,6 +92,12 @@ do {                          \
 } while(0)
 #endif
 
+RUNTIME_USED
+long random(void);
+
+RUNTIME_USED
+void srandom(unsigned int seed);
+
 }  // namespace konan
 
 #endif  // RUNTIME_PORTING_H

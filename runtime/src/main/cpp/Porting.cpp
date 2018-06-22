@@ -440,6 +440,19 @@ extern "C" {
     }
 #endif
 
+#ifdef KONAN_WASM
+    extern "C" long Konan_random();
+    extern "C" void Konan_srandom(unsigned int seed);
+
+    long random() {
+        return Konan_random();
+    }
+
+    void srandom(unsigned int seed) {
+        Konan_srandom(seed);
+    }
+#endif
+
 #ifdef KONAN_ZEPHYR
     RUNTIME_USED void Konan_abort(const char*) {
         while(1) {}
