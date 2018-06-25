@@ -492,7 +492,7 @@ task runtime_basic_exit(type: RunStandaloneKonanTest) {
 task runtime_random(type: RunKonanTest) {
     disabled = (project.testTarget == 'wasm32')
     source = "runtime/basic/random.kt"
-    goldValue = "1804289383\n1610004448\n1166754120\n1610004448\n"
+    goldValue = "1804289383\n1610004448\n1166754120\n1610004448\n5011170788001325594\n"
 }
 
 task hello0(type: RunKonanTest) {
