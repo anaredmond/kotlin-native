@@ -13,10 +13,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package kotlin.util
 
-class Random {
+import konan.worker.AtomicInt
+import konan.internal.*
+import kotlin.system.*
 
+class Random() {
+    constructor(seed: Int) : this() {
+        this.seed = seed
+    }
 
-    constructor(seed: Int) { }
+    companion object {
+        private var seed = AtomicInt(getTimeNanos().toInt())
+        private var lock = AtomicInt(0)
+    }
 
+    var seed: Int
+        get() = Companion.seed.get()
+        set(value) {
+            Companion.seed = AtomicInt(value)
+            doSpinLocked { srandom(Companion.seed.get()) }
+        }
+
+    private inline fun <T> doSpinLocked(body: () -> T): T {
+        while (lock.compareAndSwap(expected = 0, new = 1) != 0) { }
+        val result = body()
+        lock.decrement()
+        return result
+    }
+
+    fun nextInt(): Int = doSpinLocked { random() }
+
+    fun nextLong(): Long = doSpinLocked {
+        val h = random().toLong()
+        val l = random().toLong()
+        return@doSpinLocked (h shl 32) + l
+    }
 }
