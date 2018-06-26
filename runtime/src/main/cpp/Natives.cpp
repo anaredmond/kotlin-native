@@ -75,11 +75,11 @@ const void* Kotlin_Any_getTypeInfo(KConstRef obj) {
 }
 
 KInt Kotlin_random() {
-  return random();
+  return konan::random();
 }
 
 void Kotlin_srandom(KInt seed) {
-  return srandom((unsigned int) seed);
+  return konan::srandom((unsigned int) seed);
 }
 
 }  // extern "C"

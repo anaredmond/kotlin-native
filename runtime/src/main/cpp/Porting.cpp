@@ -331,6 +331,29 @@ long getpagesize() {
 #endif
 #endif
 
+#ifdef KONAN_WASM
+extern "C" long Konan_random();
+#endif
+
+long random() {
+#ifdef KONAN_WASM
+    return Konan_random();
+#endif
+#ifdef KONAN_ZEPHYR
+    return 42;
+#else
+    return ::random();
+#endif
+}
+
+void srandom(unsigned int seed) {
+#if KONAN_WASM || KONAN_ZEPHYR
+    // FIXME: not available
+#else
+    ::srandom(seed);
+#endif
+}
+
 }  // namespace konan
 
 extern "C" {
@@ -437,30 +460,6 @@ extern "C" {
             if (s[i] == 0) return i;
         }
         return maxlen;
-    }
-#endif
-
-#ifdef KONAN_WASM
-    extern "C" long Konan_random();
-    extern "C" void Konan_srandom(unsigned int seed);
-
-    long random() {
-        return Konan_random();
-    }
-
-    void srandom(unsigned int seed) {
-        Konan_srandom(seed);
-    }
-#endif
-
-#ifdef KONAN_ZEPHYR
-    long random() {
-        // FIXME: stdlib random() is not available
-        return 42;
-    }
-
-    void srandom(unsigned int seed) {
-        // FIXME: not available
     }
 #endif
 
