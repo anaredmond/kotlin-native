@@ -454,6 +454,17 @@ extern "C" {
 #endif
 
 #ifdef KONAN_ZEPHYR
+    long random() {
+        // FIXME: stdlib random() is not available
+        return 42;
+    }
+
+    void srandom(unsigned int seed) {
+        // FIXME: not available
+    }
+#endif
+
+#ifdef KONAN_ZEPHYR
     RUNTIME_USED void Konan_abort(const char*) {
         while(1) {}
     }

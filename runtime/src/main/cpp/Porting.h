@@ -92,14 +92,16 @@ do {                          \
 } while(0)
 #endif
 
-#ifdef KONAN_WASM
+}  // namespace konan
+
+#if KONAN_WASM || KONAN_ZEPHYR
+extern "C" {
 RUNTIME_USED
 long random(void);
 
 RUNTIME_USED
 void srandom(unsigned int seed);
+}
 #endif
-
-}  // namespace konan
 
 #endif  // RUNTIME_PORTING_H
