@@ -92,11 +92,13 @@ do {                          \
 } while(0)
 #endif
 
+#ifdef KONAN_WASM
 RUNTIME_USED
 long random(void);
 
 RUNTIME_USED
 void srandom(unsigned int seed);
+#endif
 
 }  // namespace konan
 
