@@ -160,7 +160,7 @@ internal fun <T> listOfInternal(vararg elements: T): List<T> {
 }
 
 @SymbolName("Kotlin_random")
-external public fun random(): Int
+external internal fun random(): Int
 
 @SymbolName("Kotlin_srandom")
-external public fun srandom(seed: Int): Unit
+external internal fun srandom(seed: Int): Unit
